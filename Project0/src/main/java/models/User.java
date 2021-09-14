@@ -7,6 +7,7 @@ public class User {
     int accountID;
     String paymentInfo;
     String email;
+    String type;
 
     public User(String username, String password, String paymentInfo, String email) {
         this.username = username;
@@ -15,12 +16,29 @@ public class User {
         this.email = email;
     }
 
-    public User(int id, String username, String password, String paymentInfo, String email) {
+    public User(int id, String username, String password, String paymentInfo, String email, String type) {
         this.accountID = id;
         this.username = username;
         this.password = password;
         this.paymentInfo = paymentInfo;
         this.email = email;
+        this.type = type;
+    }
+
+    public int getAccountID() {
+        return accountID;
+    }
+
+    public void setAccountID(int accountID) {
+        this.accountID = accountID;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getUsername() {

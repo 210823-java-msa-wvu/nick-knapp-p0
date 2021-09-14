@@ -16,5 +16,5 @@ public interface CRUDRepo <T>{
     void update(T t);
 
     // Delete
-    void delete(Integer id);
+    void delete(T t);
 }
