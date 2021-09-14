@@ -28,7 +28,7 @@ public class OrderRepo implements CRUDRepo<Order> {
                 ps.setInt(3, o.getQuantity());
                 ps.setString(4, o.getTimestamp());
                 ps.setString(5, o.getStatus());
-                ps.executeQuery();
+                ps.execute();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -59,6 +59,32 @@ public class OrderRepo implements CRUDRepo<Order> {
             return null;
         }
 
+        public List<Order> getByUserId(Integer id){//select * from "electronicsP0".order_history where user_id = 1;
+            try (Connection conn = cu.getConnection()) {
+                String sql = "select * from \"electronicsP0\".order_history where user_id = ?";
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ps.setInt(1, id);
+                ResultSet rs = ps.executeQuery();
+                List<Order> x = new ArrayList<Order>();
+                while (rs.next()) {
+                    Order o = new Order(
+                            rs.getInt("transact_id"),
+                            rs.getInt("user_id"),
+                            rs.getInt("item_id"),
+                            rs.getInt("order_quantity"),
+                            rs.getString("order_time"),
+                            rs.getString("order_status")
+                    );
+                    x.add(o);
+
+                }
+                return x;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
         @Override
         public List<Order> getAll() {
             try (Connection conn = cu.getConnection()) {
@@ -66,7 +92,7 @@ public class OrderRepo implements CRUDRepo<Order> {
                 PreparedStatement ps = conn.prepareStatement(sql);
                 ResultSet rs = ps.executeQuery();
                 List<Order> x = new ArrayList<Order>();
-                if (rs.next()) {
+                while (rs.next()) {
                     Order o = new Order(
                             rs.getInt("transact_id"),
                             rs.getInt("user_id"),

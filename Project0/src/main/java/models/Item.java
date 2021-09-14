@@ -7,11 +7,11 @@ public class Item {
     String itemName;
     String itemSpecs;
     int numInStock;
-    BigDecimal itemPrice;
+    String itemPrice;
     //BigDecimal double price;
 
 
-    public Item(int itemID, String itemName, String itemSpecs, int numInStock, BigDecimal itemPrice) {
+    public Item(int itemID, String itemName, String itemSpecs, int numInStock, String itemPrice) {
         this.itemID = itemID;
         this.itemName = itemName;
         this.itemSpecs = itemSpecs;
@@ -19,7 +19,7 @@ public class Item {
         this.itemPrice = itemPrice;
     }
 
-    public Item(String itemName, String itemSpecs, int numInStock, BigDecimal itemPrice) {
+    public Item(String itemName, String itemSpecs, int numInStock, String itemPrice) {
         this.itemName = itemName;
         this.itemSpecs = itemSpecs;
         this.numInStock = numInStock;
@@ -30,11 +30,11 @@ public class Item {
         return itemID;
     }
 
-    public BigDecimal getItemPrice() {
+    public String getItemPrice() {
         return itemPrice;
     }
 
-    public void setItemPrice(BigDecimal itemPrice) {
+    public void setItemPrice(String itemPrice) {
         this.itemPrice = itemPrice;
     }
 

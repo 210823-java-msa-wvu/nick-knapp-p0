@@ -25,8 +25,8 @@ public class ItemRepo implements CRUDRepo<Item> {
             ps.setString(1, item.getItemName());
             ps.setString(2, item.getItemSpecs());
             ps.setInt(3, item.getNumInStock());
-            ps.setBigDecimal(4, item.getItemPrice());
-            ps.executeQuery();
+            ps.setString(4, item.getItemPrice());
+            ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -46,7 +46,7 @@ public class ItemRepo implements CRUDRepo<Item> {
                         rs.getString("item_name"),
                         rs.getString("item_specs"),
                         rs.getInt("item_quantity"),
-                        new BigDecimal(rs.getString("item_price"))
+                        rs.getString("item_price")
                 );
                 return it;
             }
@@ -63,13 +63,13 @@ public class ItemRepo implements CRUDRepo<Item> {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             List<Item> x = new ArrayList<Item>();
-            if (rs.next()) {
+            while (rs.next()) {
                 Item it = new Item(
                         rs.getInt("item_id"),
                         rs.getString("item_name"),
                         rs.getString("item_specs"),
                         rs.getInt("item_quantity"),
-                        new BigDecimal(rs.getString("item_price"))
+                        rs.getString("item_price")
                 );
                 x.add(it);
             }
@@ -88,9 +88,9 @@ public class ItemRepo implements CRUDRepo<Item> {
             ps.setString(1, item.getItemName());
             ps.setString(2, item.getItemSpecs());
             ps.setInt(3, item.getNumInStock());
-            ps.setBigDecimal(4, item.getItemPrice());
+            ps.setString(4, item.getItemPrice());
             ps.setInt(5, item.getItemID());
-            ps.executeQuery();
+            ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }

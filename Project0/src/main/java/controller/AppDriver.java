@@ -1,9 +1,11 @@
 package controller;
 
+import models.Order;
 import models.User;
 import repositories.UserRepo;
 import services.UserServices;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AppDriver {
@@ -122,9 +124,18 @@ public class AppDriver {
 
                     if (signInResponse != null) {
                         System.out.println("Successfully logged in.");
-                        boolean b = true;
-                        while(b) {
+                        System.out.println(signInResponse.getType());//prints Customer
+                        String str1 = "Customer";
+                        if (signInResponse.getType().equals(str1)){//evaluates to false
+                            System.out.println("you are a customer");
+                        }else{
+                            System.out.println("you are not a customer");//prints
+                        }
+                        //boolean b = true;
+                        while(true) {
+                            //int input2 = -1;
                             int input2 = userServices.displayUserMenu(signInResponse);
+
                             if (input2 == 1) {
                                 break;//return to main/start menu
                             }
@@ -132,18 +143,34 @@ public class AppDriver {
                                 //view profile
                                 int input3 = userServices.viewProfile(signInResponse);
                                 if (input3 == 4) {//logout and quit
-                                    b = false;
-                                    a = false;
+                                    //b = false;
+                                    break;
+                                    //a = false;
                                 }
+
                                 /*if (input3 == 1){//do nothing
                                     break;
                                 }*/
                                 if (input3 == 2){
                                     //view order history
+                                    userServices.displayUserOrderHistory(signInResponse);
+
+                                    System.out.println("\n");
+
                                 }
                                 if (input3 == 3){
                                     //view shopping cart
                                 }
+                            }
+                            if (input2 == 3){
+                                //view merch screen
+                                userServices.printMerch(signInResponse);
+                            }
+                            if (input2 == 4){
+                                break;//logout and quit
+                            }
+                            if (input2 == 5){
+                                //employee is updating inventory
                             }
                         }
                         //User u = userRepo.getByUsername(username);//null pointer exception
@@ -166,7 +193,7 @@ public class AppDriver {
                 }
                 case 4: {
                     a = false;
-                    System.out.println("Program terminated.");
+
                     break;
                 }
             }
@@ -175,6 +202,7 @@ public class AppDriver {
 
 
         scanner.close();
+        System.out.println("Program terminated.");
 
     }
 }

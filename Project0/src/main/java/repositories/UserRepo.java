@@ -90,7 +90,7 @@ public class UserRepo implements  CRUDRepo<User>{
                         rs.getString("username"),
                         rs.getString("user_password"),
                         rs.getString("payment_info"),
-                        rs.getString("email"),
+                        rs.getString("user_email"),
                         rs.getString("user_type")
                 );
                 return u;
@@ -121,7 +121,7 @@ public class UserRepo implements  CRUDRepo<User>{
                         rs.getString("username"),
                         rs.getString("user_password"),
                         rs.getString("payment_info"),
-                        rs.getString("email"),
+                        rs.getString("user_email"),
                         rs.getString("user_type")
                 );
                 x.add(u);
