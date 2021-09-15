@@ -284,10 +284,12 @@ public class UserServices {
 
     }
     public void newAccount(){
+
+        scanner.nextLine();
         System.out.println("Please enter your username, password, email address, and payment info separated by commas and no extra spaces/whitespace.  \nThen press enter.");
 
 
-        scanner.nextLine();
+
         String itemIn = scanner.nextLine();
         List<String> itemList = Arrays.asList(itemIn.split(","));
 
