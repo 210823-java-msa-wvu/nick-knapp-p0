@@ -7,6 +7,7 @@ import repositories.ItemRepo;
 import repositories.OrderRepo;
 import repositories.UserRepo;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -156,8 +157,19 @@ public class UserServices {
         return 0;
 
     }
+    public void printMerch(){
+        System.out.println("Item ID | Item Name | Item Specifications | Quantity Available | Price per Unit");
+        List<Item> listI = itemRepo.getAll();
+        for (Item it : listI){
+            System.out.println("\n" + it.getItemID() + "|" +
+                    it.getItemName() + "|" +
+                    it.getItemSpecs() + "|" +
+                    it.getNumInStock() + "| $" +
+                    it.getItemPrice());
+        }
+    }
     //buy products
-    public void printMerch(User u){
+    public void printMerch(User u) throws OrderRequestException {
         //print all items in database
         System.out.println("Item ID | Item Name | Item Specifications | Quantity Available | Price per Unit");
         List<Item> listI = itemRepo.getAll();
@@ -168,10 +180,10 @@ public class UserServices {
                     it.getNumInStock() + "| $" +
                     it.getItemPrice());
         }
-        System.out.println("Enter item ID to order item. Enter multiple values to order multiple items.  " +
+        System.out.println("\nEnter item ID to order item. Enter multiple values to order multiple items.  " +
                 "\nEnter the item ID more than once to get multiple of the same item." +
                 "\nEnter 0 to place order.  Enter -1 to quit without placing order.");
-        try{
+
             ArrayList<Integer> items = new ArrayList<Integer>();
             int placeOrder = 1;
             boolean c = true;
@@ -179,7 +191,7 @@ public class UserServices {
 
                 int input = scanner.nextInt();
 
-                if (input == 0){
+                if (input == 0 || input == -1){
                     c = false;
                 }
                 if (input == -1){
@@ -199,6 +211,9 @@ public class UserServices {
                     //int itemID = itemID;
                     Item it = itemRepo.getById(itemID);
                     int n = it.getNumInStock();
+                    if (n <= 0){
+                        throw new OrderRequestException("Insufficient inventory.");
+                    }
                     int m = n - 1;
                     it.setNumInStock(m);
                     itemRepo.update(it);
@@ -206,29 +221,8 @@ public class UserServices {
                     Order newOrder = new Order(u.getAccountID(), itemID, 1, "14:30", "Pending");
                     orderRepo.add(newOrder);
                 }
+                System.out.println("Order has been placed.");
             }
-
-            System.out.println("Order has been placed.");
-            //displayUserMenu(u);
-
-            /*
-            if (input == 4){
-                return 4;
-            }
-            int[] ints = {1,2,3,4};
-            for (int i: ints){
-
-                if (input == i){
-                    return input;
-                }
-            }*/
-            throw new OrderRequestException("Invalid input.");
-        } catch (OrderRequestException e){
-            System.out.println(e);
-        }
-
-
-        //not enough inventory exception
     }
 
     public void displayUserOrderHistory(User u){
@@ -239,8 +233,13 @@ public class UserServices {
             int customerID = o.getUserID();
             User customer = userRepo.getById(customerID);
             Item thisItem = itemRepo.getById(o.getItemID());
-            System.out.println(o.getOrderID() +
-                    o.getItemID() + thisItem.getItemName() + o.getQuantity() + o.getStatus() + o.getTimestamp() + customer.getUsername() + o.getUserID());
+            System.out.println(o.getOrderID() + " | " +
+                    o.getItemID() + " | " +
+                    thisItem.getItemName() + " | " +
+                    o.getQuantity() + " | " +
+                    o.getStatus() + " | " +
+                    o.getTimestamp() + " | " +
+                    customer.getUsername() + " | " + o.getUserID());
         }
 
     }
@@ -254,6 +253,7 @@ public class UserServices {
             System.out.println("Select an option: ");
             System.out.println("1. Back\n2. Add item \n3. Edit item (feature not added yet) \n4. Log Out and Quit");
             int input = scanner.nextInt();
+            scanner.nextLine();
             if (input == 2){
                 System.out.println("Enter the item name, specifications, quantity, and price separated by commas.");
                 String itemIn = scanner.nextLine();
@@ -263,16 +263,39 @@ public class UserServices {
                 itemRepo.add(newItem);
 
             }
+            if (input == 1){
+                x = false;
+            }
+            if (input == 4){
+                System.exit(0);
+            }
+            boolean h = true;
             int[] ints = {1, 2, 3, 4};
             for (int i : ints) {
                 if (input == i) {
-
-                    //return input;
-                    break;
+                    h = false;
                 }
             }
-            System.out.println("Please enter either 1, 2, 3, 4, or 5 to choose an option.");
+            if (h){
+                System.out.println("Please enter either 1, 2, 3, or 4 to choose an option.");
+            }
+
         }
 
+    }
+    public void newAccount(){
+        System.out.println("Please enter your username, password, email address, and payment info separated by commas and no extra spaces/whitespace.  \nThen press enter.");
+
+
+        String itemIn = scanner.nextLine();
+        List<String> itemList = Arrays.asList(itemIn.split(","));
+
+        if (itemList.size() == 4) {
+
+            User newUser = new User(itemList.get(0), itemList.get(1), itemList.get(3), itemList.get(2), "Customer");
+            userRepo.add(newUser);
+        }else{
+            System.out.println("Invalid input. Cannot create account.");
+        }
     }
 }

@@ -16,6 +16,14 @@ public class User {
         this.email = email;
     }
 
+    public User(String username, String password, String paymentInfo, String email, String type) {
+        this.username = username;
+        this.password = password;
+        this.paymentInfo = paymentInfo;
+        this.email = email;
+        this.type = type;
+    }
+
     public User(int id, String username, String password, String paymentInfo, String email, String type) {
         this.accountID = id;
         this.username = username;

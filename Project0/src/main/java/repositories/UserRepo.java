@@ -56,15 +56,16 @@ public class UserRepo implements  CRUDRepo<User>{
     public User add(User user) {
         try (Connection conn = cu.getConnection()) {
 
-            String sql = "insert into \"electronicsP0\".users values(default, ?,?,?,?)";
+            String sql = "insert into \"electronicsP0\".users values(default, ?,?,?,?,?)";
 
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, user.getUsername());
             ps.setString(2,user.getPassword());
             ps.setString(3,user.getEmail());
             ps.setString(4,user.getType());
+            ps.setString(5,user.getPaymentInfo());
 
-            ps.executeQuery();
+            ps.execute();
 
 
         } catch (SQLException e) {

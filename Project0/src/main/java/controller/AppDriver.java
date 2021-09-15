@@ -3,6 +3,7 @@ package controller;
 import models.Order;
 import models.User;
 import repositories.UserRepo;
+import services.OrderRequestException;
 import services.UserServices;
 
 import java.util.ArrayList;
@@ -164,13 +165,20 @@ public class AppDriver {
                             }
                             if (input2 == 3){
                                 //view merch screen
-                                userServices.printMerch(signInResponse);
+                                try {
+                                    userServices.printMerch(signInResponse);
+                                } catch (OrderRequestException e){
+                                    e.printStackTrace();
+                                    break;
+                                }
                             }
                             if (input2 == 4){
-                                break;//logout and quit
+                                System.exit(0);
+                                //break;//logout and quit
                             }
                             if (input2 == 5){
                                 //employee is updating inventory
+                                userServices.updateInventory();
                             }
                         }
                         //User u = userRepo.getByUsername(username);//null pointer exception
@@ -184,12 +192,14 @@ public class AppDriver {
                 case 2: {
                     //create new account
                     //newAccount()
+                    userServices.newAccount();
                     break;
                 }
                 case 3: {
                     //print merchandise
-                    //printMerch()
-                    //print menu
+                    userServices.printMerch();
+                    break;
+
                 }
                 case 4: {
                     a = false;
