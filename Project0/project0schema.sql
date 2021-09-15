@@ -51,6 +51,8 @@ select * from "electronicsP0".users;
 select * from "electronicsP0".items;
 select * from "electronicsP0".order_history;
 
+select * from "electronicsP0".order_history where user_id = 1;
+
 
 
 
@@ -79,6 +81,7 @@ insert into "electronicsP0".items values(default, 'NVX NSP69 Speakers',
 --select * from "electronicsP0".items;
 
 --delete from "electronicsP0".items where item_id = '1';
+--delete from "electronicsP0".users  where user_id = 5;
 
 
 

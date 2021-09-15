@@ -54,7 +54,7 @@ public class UserServices {
                 int[] ints = {1,2,3,4};
                 for (int i: ints){
                     if (input == i){
-                        System.out.println("valid input");
+                        //System.out.println("valid input");
                         ii = 10;
                         return input;
 
@@ -68,7 +68,7 @@ public class UserServices {
         if (u.getType().equals("Employee")) {
             boolean x = true;
             while (x) {
-                System.out.println("Welcome User, please choose an option below.");
+                System.out.println("Welcome, please choose an option below.");
                 System.out.println("1. Log Out\n2. View Profile \n3. View Merchandise \n4. Log Out and Quit  \n 5. Update/Edit Inventory");
                 int input = scanner.nextInt();
                 int[] ints = {1,2,3,4,5};
@@ -287,11 +287,11 @@ public class UserServices {
         System.out.println("Please enter your username, password, email address, and payment info separated by commas and no extra spaces/whitespace.  \nThen press enter.");
 
 
+        scanner.nextLine();
         String itemIn = scanner.nextLine();
         List<String> itemList = Arrays.asList(itemIn.split(","));
 
         if (itemList.size() == 4) {
-
             User newUser = new User(itemList.get(0), itemList.get(1), itemList.get(3), itemList.get(2), "Customer");
             userRepo.add(newUser);
         }else{

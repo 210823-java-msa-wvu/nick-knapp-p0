@@ -126,12 +126,8 @@ public class AppDriver {
                     if (signInResponse != null) {
                         System.out.println("Successfully logged in.");
                         System.out.println(signInResponse.getType());//prints Customer
-                        String str1 = "Customer";
-                        if (signInResponse.getType().equals(str1)){//evaluates to false
-                            System.out.println("you are a customer");
-                        }else{
-                            System.out.println("you are not a customer");//prints
-                        }
+
+
                         //boolean b = true;
                         while(true) {
                             //int input2 = -1;
